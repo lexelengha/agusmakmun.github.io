@@ -1,64 +1,52 @@
 ---
 layout: post
-title:  "Command `SELECT` in MySQL"
+title:  "Command `JOIN` in MySQL"
 date:   2021-06-18 19:15:00 +0200
 categories: []
 ---
 
-Let's take a look at the command `SELECT` in MySQL.
+Let's take a look at the command `JOIN` in MySQL.
 
-* `SELECT ` - performs sampling from a database and has the most complex structure among all SQL statement operators.
-
-All examples will be given in this table, called PC
-
-| code | model | speed | ram | hd | cd | price |
-|---|---|---|---|---|---|---|
-| 1  | 1232 | 500 |	64	| 5.0  | 12x | 600.0000 |
-| 10 | 1260	| 500 |	32	| 10.0 | 12x | 350.0000 |
-| 11 | 1233	| 900 |	128 | 40.0 | 40x | 980.0000 |
-| 12 | 1233	| 800 |	128	| 20.0 | 50x | 970.0000 | 
-| 2  | 1121	| 750 |	128	| 14.0 | 40x | 850.0000 |
-| 3  | 1233	| 500 |	64	| 5.0  | 12x | 600.0000 |
-| 4	 | 1121	| 600 |	128	| 14.0 | 40x | 850.0000 |
-| 5	 | 1121	| 600 |	128	| 8.0  | 40x | 850.0000 |
-| 6	 | 1233	| 750 |	128	| 20.0 | 50x | 950.0000 |
-| 7	 | 1232	| 500 | 32	| 10.0 | 12x | 400.0000 |
-| 8	 | 1232	| 450 |	64	| 8.0  | 24x | 350.0000 |
-| 9	 | 1232	| 450 |	32	| 10.0 | 24x | 350.0000 |
-
-
-
-if we use the command below, then all records will be sampled from the database object of the tabular type with the name of the PC:
-`SELECT * FROM PC;`
-
-However, the columns and rows of the result set are not ordered. To order the fields of the result set, they should be listed separated by commas in the desired order after the word SELECT: 
+* `JOIN` - operation of joining two or more tables, which can be beat, is indicated in the FROM clause.
+The syntax for a predicate join is:
 
 ```sql
-SELECT price, speed, hd, ram, cd, model, code 
-FROM PC;
+FROM <table 1>
+ {LEFT | RIGHT | FULL} JOIN <table 2>
+[ON <predicate]
 ```
 
-It should be noted that a sample of multiple fields may contain duplicate rows if it does not contain a potential key that uniquely identifies the record. In the PC table, the potential key is the code field. If you only want to get unique strings, you can use the DISTINCT keyword:
+In examples `table 1` is Product, `table 2` - PC, where in table `Product` we have colums, like `id, maker, model`, and in table `PC` - `id, model, price`. 
+
+An outer join is defined by its type - LEFT (left), RIGHT (right) or FULL (full), and simply JOIN will mean an inner join. 
+* The outer join LEFT JOIN means that in addition to the rows for which the predicate condition is satisfied, all other rows from the first table (left) will be included in the result set, and the missing column values from the right table will be replaced with NULL values.
 
 ```sql
-SELECT DISTINCT speed, ram 
-FROM PC;
+SELECT maker, price
+FROM Product LEFT JOIN 
+ PC ON PC.model = Product.model
 ```
 
-The horizontal sample is implemented by the WHERE predicate clause, which is written after the FROM clause. In this case, the resulting set will include only those lines from the record source, for each of which the value of the predicate is TRUE:
+* The RIGHT JOIN is the opposite of the LEFT JOIN, that is, all rows from the second table will be included in the result set, which will only be joined to those rows from the first table for which the join condition is met.    
 
 ```sql
-SELECT DISTINCT speed, ram 
-FROM PC 
-WHERE price < 500;
+SELECT maker, price
+FROM Product RIGHT JOIN 
+ PC ON PC.model = Product.model
 ```
 
-Examples of simple comparison predicates: 
+* With a full join (FULL JOIN), the resulting table will contain not only those rows that have the same values in the matched columns, but also all other rows of the source tables that do not have corresponding values in the other table. In these rows, all columns of the table in which no match was found are filled with NULL values. That is, a full join is a combination of the left and right outer joins.
 
-| predicate | description |
-|---|---|
-| cd = ‘24x’ | 24-speed CD-ROM |
-| price < 1000 | The price is less than 1000 |
-| Price <= speed*2 | The price does not exceed twice the speed of the processor |
-| ram – 128 > 0	| The amount of RAM is over 128 MB |
-| type = ‘laptop’ | The type of product is a laptop computer |
+```sql
+SELECT maker, price
+FROM Product FULL JOIN 
+ PC ON PC.model = Product.model
+ ```
+
+ But what to do if it happened that you have the same column names but with different variables in the tables that need to be displayed when merging them? This issue can be solved very easily. When specifying a column, you need to write the name of the table from which you want to enter data, for example:
+ 
+ ```sql
+ SELECT Product.id, PC.id, price
+ FROM Product JOIN 
+ PC ON PC.model = Product.model
+ ```
