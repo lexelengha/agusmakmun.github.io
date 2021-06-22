@@ -1,58 +1,29 @@
 ---
 layout: post
-title:  "Command `UNION` in MySQL"
-date:   2021-06-21 14:00:00 +0200
+title:  "Getting summarizing values in MySQL"
+date:   2021-06-22 11:00:00 +0200
 categories: []
 ---
 
-Let's take a look at the command `UNION` in MySQL.
+How to find the number of columns in a table? How to determine their average value? These and many other questions related to some statistical information can be answered using summary (aggregate) functions. The standard preview of the following aggregate functions:
 
-* `UNION` - is used for integrating queries:
 
-```sql
-< query 1 >
-UNION [ALL]
-< query 2 >
-```
+| function | description |
+|---|---|
+| COUNT(*) | Returns the number of rows of the table |
+| COUNT | Returns the number of values in the specified column | 
+| SUM |	Returns the sum of values in the specified column |
+| AVG |	Returns the average value in the specified column |
+| MIN |	Returns the minimum value in the specified column |
+| MAX |	Returns the maximum value in the specified column |
 
-The `UNION` clause combines the results of two SELECT statements into a single result set. If the ALL parameter is given, all the duplicates of the rows returned are retained; otherwise the result set includes only unique rows. Note that any number of queries may be combined. Moreover, the union order can be changed with parentheses.
-
-The following conditions should be observed:
-
-* The number of columns of each query must be the same;
-
-* Result set columns of each query must be compared by the data type to each other (as they follows);
-
-* The result set uses the column names from the first query;
-
-In examples `query 1` is query from table PC where colums: `model, price`, `query 2` is query from table Laptop where colums: `model price` too:
+All these functions return a single value. In so doing, the functions `COUNT`, `MIN`, and `MAX` are applicable to any data types, while the functions `SUM` and `AVG` are only used with numeric data types. The difference between the functions `COUNT(*)` and `COUNT(<column name>)` is that the second does not calculate NULL values (as do other aggregate functions).
 
 ```sql
-SELECT model, price
-FROM PC
-UNION
-SELECT model, price
-FROM Laptop
-ORDER BY price DESC;
+SELECT MIN(price) AS Min_price, MAX(price) AS Max_price
+FROM PC;
 ```
 
-Within the standard of  SQL language there are clauses of SELECT statement for fulfillment of operations of intersection and subtraction of the queries. Such queries are INTERSECT  [ALL] (intersection) and EXCEPT [ALL] (subtraction), which operate analogously to UNION statement. Into the resulting set only those rows are included that are in the both queries (INTERSECT) and only those rows of the first query, that are absent in the second one (EXCEPT). Thereby both of the queries, that are involved in the operation, should be characterized by the same number of columns, and the corresponding columns should have the same (or implied) data types. The titles of the columns of the resulting set are formed from the titles of the first query.
+To use only unique values in calculating the statistic, the parameter `DISTINCT` with an aggregate function argument may be used. `ALL` is another (default) parameter and assumes that all the column values returned (besides NULLs) are calculated.
 
-If the key word ALL is not used, that the duplicate strings should be automatically canceled during fulfillment of the operation. If ALL is indicated, than the number of duplicate rows is subject to the following rules (n1 – the number of duplicate rows of the first query, n2 – the number of duplicate rows of the second query):
-
-INTERSECT ALL: min(n1, n2)
-EXCEPT ALL: n1 - n2, if n1>n2.
-
-In examples `query 1` is query from table Ships where column: `name`, `query 2` is query from table Outcomes where colums: `ship`:
-
-```sql
-SELECT name FROM Ships
-INTERSECT
-SELECT ship FROM Outcomes;
-```
-and
-```sql
-SELECT ship FROM Outcomes
-EXCEPT
-SELECT name FROM Ships;
-```
+If we need the number of PC models produced by each maker, we will need to use the `GROUP BY` clause, placed immediately after the `WHERE` clause, if any.
