@@ -20,7 +20,7 @@ The number of computers and their average price are defined for each PC model in
 
 There are some particular rules for executing aggregate functions:
 
- * If none of the rows was returned by the query (or none of the rows for the given group), the source data for any aggregate function to be calculated is missing. In such case, the COUNT function returns zero, while other functions return NULL.
+ * If none of the rows was returned by the query (or none of the rows for the given group), the source data for any aggregate function to be calculated is missing. In such case, the `COUNT` function returns zero, while other functions return `NULL`.
 
  * The argument of the aggregate function cannot include aggregate functions itself (the function of function) i.e. no maximum of average values is obtainable.
 
@@ -52,7 +52,7 @@ Note that the alias `(Avg_price)` for naming values of the aggregate function in
 6.ORDER BY
 ```
 
-This order does not correspond to the syntax order of SELECT operator, which is more closer to native language and is generally formed as follows:
+This order does not correspond to the syntax order of `SELECT` operator, which is more closer to native language and is generally formed as follows:
 
 ```sql
 SELECT [DISTINCT | ALL] {*
