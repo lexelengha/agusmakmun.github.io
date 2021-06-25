@@ -47,5 +47,3 @@ The line makes it clear what should happen when we call the `hello` command on a
 expect(message).to eql "Hello World!"
 ```
 The idea with expected statements is that they read like normal English. You can say this out loud as `Expect the variable message to be equal to the string "Hello World" `. The idea is that it is descriptive and also easy to read, even for non-technical stakeholders such as project managers.
-
-

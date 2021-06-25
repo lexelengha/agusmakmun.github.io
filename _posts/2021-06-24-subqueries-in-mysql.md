@@ -59,4 +59,3 @@ FROM Laptop
 FROM PC
 ) AS dif_price;
 ```
-
