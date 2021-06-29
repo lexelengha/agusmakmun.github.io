@@ -2,7 +2,7 @@
 layout: post
 title:  "Regular expressions in Ruby"
 date:   2021-06-28 19:00:00 +0200
-categories: []
+categories: [ruby, regex]
 ---
 
 Regular expressions are needed to work with strings.
@@ -39,14 +39,14 @@ In the case of using a word that the string does not contain, we get nil.
 We can also use a more concise method `=~` that does a similar job:
 
 ```ruby
-'Neil and Nick' =~ ('Alex')
+'Neil and Nick' =~ /Alex/
 => nil
 ```
 
 Substitute the correct word and we see that the method returned to us `9`. This number means the position (character number) in the string where the match was first encountered (the required condition). Let's check if the result is correct:
 
 ```ruby
-'Neil and Nick' =~ ('Nick')
+'Neil and Nick' =~ /Nick/
 => true
 ```
 
@@ -59,9 +59,9 @@ Consider the following example:
 => 0
 ```
 
-A period in a regular expression means that any single character is possible in its place , be it `ONE` number, `ONE` letter, or any other character.
+A period in a regular expression means that any single character is possible in its place, be it `ONE` number, `ONE` letter, or any other character.
 
-Let us now apply the anchor in our regular expression ( anchor ) `^`- signifying the beginning of the line. When using this anchor, we explicitly indicate that the character сshould come first. In the case of a different character in the first place after the anchor (the beginning of the line), the method will return us `nil`:
+Let us now apply the anchor in our regular expression ( anchor ) `^`- signifying the beginning of the line. When using this anchor, we explicitly indicate that the character should come first. In the case of a different character in the first place after the anchor (the beginning of the line), the method will return us `nil`:
 
 ``` ruby
 'cat' =~ /^c.t/
@@ -83,7 +83,7 @@ And now we will introduce a restriction on the last letter, that is, the letter 
 
 In the last example, the letter is tnot the last character, hence the result nil.
 
-It's time to get acquainted with the quantifiers ( Quantifier ) from the English word Quantify - which means to determine the amount . Let's take an example already familiar to us, and substitute an asterisk symbol *( asterisk , asterisk ) instead of a dot . Using this quantifier, we can enter any number of characters from zero to infinity in place of the asterisk:
+It's time to get acquainted with the quantifiers ( Quantifier ) from the English word Quantify - which means to determine the amount. Let's take an example already familiar to us, and substitute an asterisk symbol *(asterisk) instead of a dot. Using this quantifier, we can enter any number of characters from zero to infinity in place of the asterisk:
 
 ```ruby
 'catttttttttttttttt' =~ /^c.t*$/
@@ -128,7 +128,7 @@ We can write our regular expression a little differently using the following syn
 
 Where
 
-`\w`- similar to an expression `[a-zA-Z]`, that is, any letter of the English alphabet, independent of the case, but in addition to this, the presence of an underscore is also allowed `_`, which in general is what we need to check email, since this character in an email address is acceptable
+`\w`- similar to an expression `[a-zA-Z]`, that is, any letter of the English alphabet, independent of the case, but in addition to this, the presence of an underscore is also allowed `_`, which in general is what we need to check email since this character in an email address is acceptable.
 
 `\d`- similar to an expression `[0-9]`, that is, it checks a string for the presence of any numbers
 
