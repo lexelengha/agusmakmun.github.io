@@ -2,7 +2,7 @@
 layout: post
 title:  "Work with factory bot in Ruby"
 date:   2021-06-29 18:00:00 +0200
-categories: [ruby, regex]
+categories: [ruby, factory-bot]
 ---
 
 In test-driven development, data is one of the requirements for a successful and thorough test. In order to be able to `test` all use cases of a given method, object or feature, you need to be able to define multiple sets of data required for the test.
