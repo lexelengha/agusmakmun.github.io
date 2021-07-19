@@ -5,7 +5,7 @@ date:   2021-07-19 17:30:00 +0200
 categories: [Ruby]
 ---
 
-  `String Interpolation` it is all about combining strings together, but not by using the `+` operator, and this is 
+`String Interpolation` it is all about combining strings together, but not by using the `+` operator, and this is 
 how it looks:
 
 ```ruby
