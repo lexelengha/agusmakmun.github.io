@@ -182,22 +182,3 @@ end
 ```
 
 This time all of our examples pass.
-
-# A Word of Caution
-
-Note that in the example above we’ve reached a green spec (and possibly, the whole test suite), while at the same time 
-our implementation contains code calling an undefined method. Are we just fooling ourselves with all this mocking?
-
-This is one of the reasons why there are people who prefer to never mock. We won’t go into that argument in this 
-tutorial. With great power (of expressiveness and flexibility of code we can write and interfaces we can design by 
-mocking, in this case) comes great responsibility.
-
-It is important to bear in mind that a mocking approach should always be used within a development cycle that begins 
-with a high-level integration or acceptance test. In Ruby applications, this frequently means writing a Cucumber 
-scenario which describes and checks for the key points of the business logic, before diving into the implementation 
-code. There, in the lower layers of the code, mocking can sometimes be a good way to drive your code.
-
-
-
-
-
